@@ -1,3 +1,34 @@
 <resources>
     <string name="app_name">ToDo List</string>
+    <string name="todolist_feature_title_name">Todos</string>
+    <string name="todolist_add_todo_text">+ Add todo…</string>
+    <string name="todolist_todo_sheet_delete">Delete todo forever</string>
+    <string name="todolist_todo_sheet_edit">Edit todo</string>
+    <string name="todolist_undo_deletion_action">Undo</string>
+
+    <string name="todolist_todo_deletion_message">Todo deleted successfully</string>
+
+    <string name="settings_feature_title_name">Settings</string>
+
+    <string name="settings_ui_mode_title">User Interface</string>
+    <string name="settings_ui_mode_sheet_title">Select User Interface</string>
+    <string name="settings_ui_mode_automatic">Automatic</string>
+    <string name="settings_ui_mode_dark">Dark</string>
+    <string name="settings_ui_mode_light">Light</string>
+
+    <string name="settings_backup_title">Backup</string>
+    <string name="settings_contributors_title">Contributors</string>
+
+    <string name="settings_backup_method_title">Select Backup Method</string>
+    <string name="settings_backup_method_webdav_title">WebDAV</string>
+    <string name="settings_backup_method_drive_title">Google Drive(Coming Soon)</string>
+
+    <string name="addtodo_hint_text">Write down a todo…</string>
+    <string name="addtodo_save_todo_text">Save</string>
+    <string name="addtodo_date_text">Date</string>
+    <string name="addtodo_date_today_text">Today</string>
+    <string name="addtodo_date_tomorrow_text">Tomorrow</string>
+    <string name="addtodo_title_text">Add todo</string>
+    <string name="addtodo_scheduled_todo">Scheduled todo for %s</string>
+
 </resources>
