@@ -7,7 +7,7 @@ import xone.com.todolist.database.entity.TodoEntity
 import java.util.*
 
 @Dao
-internal interface TodoDao {
+interface TodoDao {
 
     @Insert
     suspend fun insertToDo(todo: TodoEntity): Long

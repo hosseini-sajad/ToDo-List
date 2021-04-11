@@ -6,7 +6,7 @@ import java.io.Serializable
 import java.util.Date
 
 @Entity(tableName = "todo_table")
-internal data class TodoEntity(
+data class TodoEntity(
         @PrimaryKey(autoGenerate = true)
         val todoId: Long = 0L,
         val todo: String,
