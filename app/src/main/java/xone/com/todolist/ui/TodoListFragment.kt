@@ -1,4 +1,4 @@
-package xone.com.todolist
+package xone.com.todolist.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import xone.com.todolist.R
 import xone.com.todolist.databinding.FragmentTodolistBinding
 
 

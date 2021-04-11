@@ -7,6 +7,7 @@
         <item name="android:windowBackground">@color/surface_color_0</item>
         <item name="fontFamily">@font/robotoslab_regular</item>
         <item name="textInputStyle">@style/Widget.Input.OutlinedBox</item>
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="AppTheme" parent="AppThemeBase" />
@@ -18,4 +19,15 @@
     <style name="Widget.Input.OutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="materialThemeOverlay">@style/ThemeOverlay.Input.OutlinedBox</item>
     </style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_dialog</item>
+    </style>
+
 </resources>

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/todoListFragment"
-        android:name="xone.com.todolist.TodoListFragment"
+        android:name="xone.com.todolist.ui.TodoListFragment"
         android:label="TodoListFragment"
         tools:layout="@layout/fragment_todolist">
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/addTodoFragment"
-        android:name="xone.com.todolist.AddTodoFragment"
+        android:name="xone.com.todolist.ui.AddTodoFragment"
         android:label="AddTodoFragment"
         tools:layout="@layout/fragment_addtodo" />
 </navigation>

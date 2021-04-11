@@ -11,7 +11,7 @@
             android:id="@+id/viewRoot"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="@drawable/selector_click_rectangle"
+            android:background="@drawable/selector_click_rectangle"
             android:clickable="true"
             android:focusable="true"
             android:orientation="vertical"
