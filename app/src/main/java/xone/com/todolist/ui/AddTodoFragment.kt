@@ -2,6 +2,7 @@ package xone.com.todolist.ui
 
 import android.os.Bundle
 import android.text.format.DateUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import java.util.*
 
 class AddTodoFragment : Fragment() {
 
-    lateinit var binding: FragmentAddtodoBinding
+    private lateinit var binding: FragmentAddtodoBinding
 
     override fun onCreateView(
             inflater: LayoutInflater,
@@ -41,7 +42,9 @@ class AddTodoFragment : Fragment() {
 
         calendarView.setOnDateChangeListener { _, year, month, dayOfMonth ->
             val calendar = Calendar.getInstance()
+            Log.d(TAG, "showBottomSheetCalendar : first: " + calendar.time)
             calendar.set(year, month, dayOfMonth)
+            Log.d(TAG, "showBottomSheetCalendar : second: " + calendar.time)
 
             binding.todoDate.text = when {
                 DateUtils.isToday(calendar.timeInMillis) -> "Today"
@@ -55,5 +58,9 @@ class AddTodoFragment : Fragment() {
 
     private fun dateFormatter(year: Int, month: Int, dayOfMonth: Int): String {
         return year.toString() + "/" + (month + 1) + "/" + dayOfMonth
+    }
+
+    companion object {
+        private val TAG = AddTodoFragment::class.simpleName
     }
 }
