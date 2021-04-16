@@ -12,6 +12,7 @@
         tools:layout="@layout/fragment_todolist">
         <action
             android:id="@+id/action_todoListFragment_to_addTodoFragment"
+            app:popUpToInclusive="true"
             app:destination="@id/addTodoFragment" />
     </fragment>
 
@@ -19,5 +20,9 @@
         android:id="@+id/addTodoFragment"
         android:name="xone.com.todolist.ui.AddTodoFragment"
         android:label="AddTodoFragment"
-        tools:layout="@layout/fragment_addtodo" />
+        tools:layout="@layout/fragment_addtodo" >
+        <action
+            android:id="@+id/action_addTodoFragment_to_todoListFragment"
+            app:popUpTo="@id/todoListFragment" />
+    </fragment>
 </navigation>

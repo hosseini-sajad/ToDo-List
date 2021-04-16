@@ -7,9 +7,10 @@ import java.util.Date
 
 @Entity(tableName = "todo_table")
 data class TodoEntity(
-        @PrimaryKey(autoGenerate = true)
-        val todoId: Long = 0L,
         val todo: String,
         val date: Date,
         val isDone: Boolean = false
-) : Serializable
+) : Serializable {
+        @PrimaryKey(autoGenerate = true)
+        var todoId: Long = 0
+}

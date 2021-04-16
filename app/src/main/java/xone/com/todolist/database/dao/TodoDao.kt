@@ -9,7 +9,7 @@ import java.util.*
 @Dao
 interface TodoDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertToDo(todo: TodoEntity): Long
 
     @Update
@@ -21,8 +21,8 @@ interface TodoDao {
     @Delete
     suspend fun deleteTodos(todos: List<TodoEntity>): Int
 
-    @Query("SELECT * FROM todo_table WHERE date < :before ORDER BY isDone ASC, todoId DESC")
-    fun selectAllTodosBefore(before: Date): LiveData<List<TodoEntity>>
+    @Query("SELECT * FROM todo_table ORDER BY isDone ASC, todoId DESC")
+    fun selectAllTodosBefore(): LiveData<List<TodoEntity>>
 
     @Query("SELECT * FROM todo_table WHERE date < :before AND isDone = 1")
     suspend fun selectAllDoneTodosBefore(before: Date): List<TodoEntity>

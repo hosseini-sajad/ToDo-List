@@ -1,14 +1,15 @@
-package xone.com.todolist.database.typeconverter
+package xone.com.todolist.database
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import xone.com.todolist.database.dao.TodoDao
 import xone.com.todolist.database.entity.TodoEntity
+import xone.com.todolist.database.typeconverter.DateTypeConverter
 
 @Database(entities = [TodoEntity::class], version = 1)
+@TypeConverters(DateTypeConverter::class)
 abstract class TodoDatabase : RoomDatabase() {
+
     abstract val todoDao: TodoDao
 
     companion object {
