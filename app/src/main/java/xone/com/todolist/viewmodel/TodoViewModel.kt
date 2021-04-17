@@ -8,7 +8,7 @@ import xone.com.todolist.repository.TodoRepository
 import java.util.*
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
-    private var todoRepository: TodoRepository? = null
+    var todoRepository: TodoRepository? = null
 
     init {
         todoRepository = TodoRepository(application)
@@ -26,7 +26,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     class Factory(
-        private val application: Application
+            private val application: Application
 //            private val date: Date,
     ) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")
