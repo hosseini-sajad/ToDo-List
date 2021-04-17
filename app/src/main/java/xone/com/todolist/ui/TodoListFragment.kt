@@ -46,22 +46,21 @@ class TodoListFragment : Fragment() {
         val recyclerView = binding.todoListRecycler
         recyclerView.layoutManager = LinearLayoutManager(context)
         val todoAdapter = TodoAdapter()
+        recyclerView.adapter = todoAdapter
 
-        allTodosBefor(todoViewModel, recyclerView, todoAdapter)
+        allTodosBefor(todoViewModel, todoAdapter)
 
         return binding.root
     }
 
     private fun allTodosBefor(
         todoViewModel: TodoViewModel,
-        recyclerView: RecyclerView,
         todoAdapter: TodoAdapter
     ) {
         todoViewModel.allTodosBefor().observe(viewLifecycleOwner, Observer {
-            if (it.isNotEmpty()) {
+            it?.let {
                 Log.d(TAG, "onCreateView: todoList>>>>" + it.size)
-                todoAdapter.data = it
-                recyclerView.adapter = todoAdapter
+                todoAdapter.submitList(it)
             }
         })
     }
