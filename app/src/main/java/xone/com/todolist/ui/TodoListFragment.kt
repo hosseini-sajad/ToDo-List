@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import xone.com.todolist.R
 import xone.com.todolist.adapter.TodoAdapter
 import xone.com.todolist.databinding.FragmentTodolistBinding
