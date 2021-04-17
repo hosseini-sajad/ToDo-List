@@ -12,7 +12,6 @@
         tools:layout="@layout/fragment_todolist">
         <action
             android:id="@+id/action_todoListFragment_to_addTodoFragment"
-            app:popUpToInclusive="true"
             app:destination="@id/addTodoFragment" />
     </fragment>
 

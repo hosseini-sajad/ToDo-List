@@ -54,7 +54,7 @@ class AddTodoFragment : Fragment() {
 
         binding.saveTodo.setOnClickListener {
             saveTodoInDatabase(todoViewModel)
-            //findNavController().popBackStack()
+            findNavController().popBackStack()
         }
 
         return binding.root
@@ -112,12 +112,7 @@ class AddTodoFragment : Fragment() {
     private fun saveTodoInDatabase(todoViewModel: TodoViewModel) {
         val todo: String = binding.todoInput.text.toString()
         val todoEntity = TodoEntity(todo, date, false)
-        todoViewModel.insertTodo(todoEntity).observe(viewLifecycleOwner, {
-            if (it > -1) {
-                Log.d(TAG, "saveTodoInDatabase: $it")
-                //findNavController().popBackStack()
-            }
-        })
+        todoViewModel.insertTodo(todoEntity)
     }
 
     companion object {

@@ -8,14 +8,14 @@ import xone.com.todolist.repository.TodoRepository
 import java.util.*
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
-    val allTodosBefor: LiveData<List<TodoEntity>>
-
-    var todoRepository: TodoRepository? = null
+    private var todoRepository: TodoRepository? = null
 
     init {
         todoRepository = TodoRepository(application)
-        allTodosBefor = todoRepository?.allTodosBefor()!!
+
     }
+
+    fun allTodosBefor() = todoRepository?.allTodosBefor()!!
 
     fun insertTodo(todo: TodoEntity): LiveData<Long> {
         val id = MutableLiveData<Long>()
@@ -26,7 +26,7 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     class Factory(
-            private val application: Application
+        private val application: Application
 //            private val date: Date,
     ) : ViewModelProvider.Factory {
         @Suppress("unchecked_cast")

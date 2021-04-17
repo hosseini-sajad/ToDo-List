@@ -20,6 +20,6 @@ class TodoRepository(application: Application) {
         todoDao.selectAllTodosBefore()
 
     suspend fun insertTodo(todo: TodoEntity) = withContext(Dispatchers.IO) {
-        return@withContext todoDao.insertToDo(todo)
+        todoDao.insertToDo(todo)
     }
 }
