@@ -1,11 +1,13 @@
 package xone.com.todolist.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import xone.com.todolist.database.entity.TodoEntity
 import xone.com.todolist.repository.TodoRepository
-import java.util.*
 
 class TodoViewModel(application: Application) : AndroidViewModel(application) {
     var todoRepository: TodoRepository? = null
@@ -24,18 +26,4 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         }
         return id
     }
-
-    class Factory(
-            private val application: Application
-//            private val date: Date,
-    ) : ViewModelProvider.Factory {
-        @Suppress("unchecked_cast")
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            if (modelClass.isAssignableFrom(TodoViewModel::class.java)) {
-                return TodoViewModel(application) as T
-            }
-            throw IllegalArgumentException("Unknown ViewModel class")
-        }
-    }
-
 }
