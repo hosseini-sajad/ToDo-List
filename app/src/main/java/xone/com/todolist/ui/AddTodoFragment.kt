@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.EditText
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,7 +21,9 @@ import java.util.*
 
 class AddTodoFragment : Fragment() {
 
-    private lateinit var binding: FragmentAddtodoBinding
+    private var _binding: FragmentAddtodoBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var date: Date
     private lateinit var calendar: Calendar
 
@@ -31,7 +32,7 @@ class AddTodoFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_addtodo, container, false)
+        _binding = FragmentAddtodoBinding.inflate(inflater, container, false)
 
         calendar = Calendar.getInstance()
         date = calendar.time
@@ -116,5 +117,10 @@ class AddTodoFragment : Fragment() {
 
     companion object {
         private val TAG = AddTodoFragment::class.simpleName
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
