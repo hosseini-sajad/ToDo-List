@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.EditText
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,27 +21,30 @@ import java.util.*
 
 class AddTodoFragment : Fragment() {
 
-    private lateinit var binding: FragmentAddtodoBinding
-    private lateinit var date: Date
-    private lateinit var calendar: Calendar
+    private var _binding: FragmentAddtodoBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var viewModel: TodoViewModel
+
+    private val calendar = Calendar.getInstance()
+    private var date: Date = calendar.time
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?,
     ): View {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_addtodo, container, false)
+        _binding = FragmentAddtodoBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        calendar = Calendar.getInstance()
-        date = calendar.time
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        val todoViewModel = ViewModelProvider(
-            this, TodoViewModel.Factory(
-                requireNotNull(this.activity).application
-                //date
-            )
-        ).get(TodoViewModel::class.java)
+        setUp()
 
+        viewModel = ViewModelProvider(requireActivity()).get(TodoViewModel::class.java)
+
+    }
+
+    private fun setUp() {
         binding.dateClick.setOnClickListener {
             showBottomSheetCalendar()
         }
@@ -52,16 +54,14 @@ class AddTodoFragment : Fragment() {
         }
 
         binding.saveTodo.setOnClickListener {
-            saveTodoInDatabase(todoViewModel)
+            saveTodoInDatabase(viewModel)
             findNavController().popBackStack()
         }
-
-        return binding.root
     }
 
     private fun showBottomSheetCalendar() {
         val bottomSheetCalendar = layoutInflater.inflate(R.layout.view_bottom_sheet_calendar, null)
-        val dialog = BottomSheetDialog(this.requireContext())
+        val dialog = BottomSheetDialog(requireContext())
         dialog.setContentView(bottomSheetCalendar)
         val calendarView = bottomSheetCalendar.findViewById<CalendarView>(R.id.calendarView)
         // Disable past dates
@@ -78,10 +78,7 @@ class AddTodoFragment : Fragment() {
     }
 
     private fun setDateToTodoDate(
-        calendar: Calendar,
-        year: Int,
-        month: Int,
-        dayOfMonth: Int
+        calendar: Calendar, year: Int, month: Int, dayOfMonth: Int
     ) {
         binding.todoDate.text = when {
             DateUtils.isToday(calendar.timeInMillis) -> "Today"
@@ -92,12 +89,8 @@ class AddTodoFragment : Fragment() {
 
     private fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
         this.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            }
-
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(editable: Editable?) {
                 afterTextChanged.invoke(editable.toString())
             }
@@ -116,5 +109,10 @@ class AddTodoFragment : Fragment() {
 
     companion object {
         private val TAG = AddTodoFragment::class.simpleName
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
