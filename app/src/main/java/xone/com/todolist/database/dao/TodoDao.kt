@@ -26,4 +26,4 @@ interface TodoDao {
 
     @Query("SELECT * FROM todo_table WHERE date < :before AND isDone = 1")
     suspend fun selectAllDoneTodosBefore(before: Date): List<TodoEntity>
-}
+}                                                                                                                                                                                                                                                                                                                                                                                                                                                                               

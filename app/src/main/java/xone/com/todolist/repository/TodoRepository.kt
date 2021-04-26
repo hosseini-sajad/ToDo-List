@@ -19,4 +19,6 @@ class TodoRepository(application: Application) {
     suspend fun insertTodo(todo: TodoEntity) =
         todoDao.insertToDo(todo)
 
+    suspend fun updateTodo(todo: TodoEntity) =
+        todoDao.updateTodo(todo)
 }

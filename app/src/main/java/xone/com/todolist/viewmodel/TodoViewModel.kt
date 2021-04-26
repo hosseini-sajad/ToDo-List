@@ -26,4 +26,10 @@ class TodoViewModel(application: Application) : AndroidViewModel(application) {
         }
         return id
     }
+
+    fun updateTodo(todo: TodoEntity) {
+        viewModelScope.launch {
+            todoRepository?.updateTodo(todo)
+        }
+    }
 }

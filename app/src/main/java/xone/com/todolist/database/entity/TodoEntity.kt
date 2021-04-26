@@ -9,8 +9,12 @@ import java.util.Date
 data class TodoEntity(
         val todo: String,
         val date: Date,
-        val isDone: Boolean = false
+        var isDone: Boolean = false
 ) : Serializable {
         @PrimaryKey(autoGenerate = true)
         var todoId: Long = 0
+
+        constructor(todoId: Long, todo: String, date: Date, isDone: Boolean) : this(todo, date, isDone) {
+                this.todoId = todoId
+        }
 }
