@@ -1,4 +1,4 @@
-package xone.com.todolist.ui
+    package xone.com.todolist.ui
 
 import android.os.Bundle
 import android.text.Editable
@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CalendarView
 import android.widget.EditText
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -16,14 +17,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import xone.com.todolist.R
 import xone.com.todolist.database.entity.TodoEntity
 import xone.com.todolist.databinding.FragmentAddtodoBinding
-import xone.com.todolist.viewmodel.TodoViewModel
+import xone.com.todolist.viewmodel.AddTodoViewModel
 import java.util.*
 
 class AddTodoFragment : Fragment() {
 
     private var _binding: FragmentAddtodoBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel: TodoViewModel
+    private lateinit var viewModel: AddTodoViewModel
 
     private val calendar = Calendar.getInstance()
     private var date: Date = calendar.time
@@ -38,13 +39,16 @@ class AddTodoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setUp()
+        val arguments = AddTodoFragmentArgs.fromBundle(requireArguments())
+        setUpEditTodoEntity(arguments.todoEntity)
+        setUp(arguments.todoEntity)
 
-        viewModel = ViewModelProvider(requireActivity()).get(TodoViewModel::class.java)
-
+        viewModel = ViewModelProvider(this).get(AddTodoViewModel::class.java)
     }
 
-    private fun setUp() {
+    private fun setUp(todoEntity: TodoEntity?) {
+        setDate(todoEntity)
+
         binding.dateClick.setOnClickListener {
             showBottomSheetCalendar()
         }
@@ -54,8 +58,12 @@ class AddTodoFragment : Fragment() {
         }
 
         binding.saveTodo.setOnClickListener {
-            saveTodoInDatabase(viewModel)
-            findNavController().popBackStack()
+            if (todoEntity == null) {
+                insertTodo()
+            } else {
+                updateTodo(todoEntity)
+            }
+            findNavController().navigate(AddTodoFragmentDirections.actionAddTodoFragmentToTodoListFragment())
         }
     }
 
@@ -97,14 +105,37 @@ class AddTodoFragment : Fragment() {
         })
     }
 
+    private fun setUpEditTodoEntity(todoEntity: TodoEntity?) {
+        binding.todoInput.setText(todoEntity?.todo)
+        binding.todoDate.text = todoEntity?.date.toString()
+    }
+
     private fun dateFormatter(year: Int, month: Int, dayOfMonth: Int): String {
         return year.toString() + "/" + (month + 1) + "/" + dayOfMonth
     }
 
-    private fun saveTodoInDatabase(todoViewModel: TodoViewModel) {
+    private fun setDate(todoEntity: TodoEntity?) {
+        if (todoEntity != null) {
+            calendar.time = todoEntity.date
+        }
+        setDateToTodoDate(
+            calendar,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        )
+    }
+
+    private fun updateTodo(todoEntity: TodoEntity) {
+        val todo: String = binding.todoInput.text.toString()
+        setDate(todoEntity)
+        viewModel.updateTodo(todo = TodoEntity(todoEntity.todoId, todo, date, todoEntity.isDone))
+    }
+
+    private fun insertTodo() {
         val todo: String = binding.todoInput.text.toString()
         val todoEntity = TodoEntity(todo, date, false)
-        todoViewModel.insertTodo(todoEntity)
+        viewModel.insertTodo(todoEntity)
     }
 
     companion object {

@@ -1,19 +1,17 @@
 package xone.com.todolist.ui
 
-import android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import xone.com.todolist.R
 import xone.com.todolist.adapter.TodoAdapter
+import xone.com.todolist.component.view.BottomSheetView
+import xone.com.todolist.database.entity.BottomSheetEntity
 import xone.com.todolist.database.entity.TodoEntity
 import xone.com.todolist.databinding.FragmentTodolistBinding
 import xone.com.todolist.viewmodel.TodoViewModel
@@ -24,7 +22,7 @@ class TodoListFragment : Fragment() {
     private var _binding: FragmentTodolistBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: TodoViewModel
-
+    private var todoSheet: BottomSheetView? = null
     private val todoAdapter = setUpTodoAdapter()
 
     override fun onCreateView(
@@ -41,7 +39,15 @@ class TodoListFragment : Fragment() {
 
         viewModel = ViewModelProvider(requireActivity()).get(TodoViewModel::class.java)
 
-        allTodosBefor(viewModel, todoAdapter)
+        viewModel.apply {
+            todoSheetObservable.observe(viewLifecycleOwner, ::observeTodoSheet)
+            editTodoEntity.observe(viewLifecycleOwner, ::editTodoEntity)
+            allTodosBefor().observe(viewLifecycleOwner, ::allTodosBefor)
+        }
+
+        binding.viewRoot.setOnClickListener {
+            findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToAddTodoFragment(null))
+        }
     }
 
     private fun setUpRecyclerView() {
@@ -50,64 +56,34 @@ class TodoListFragment : Fragment() {
             adapter = todoAdapter
             alwaysRecyclerViewPositionTop(todoAdapter, this)
         }
+    }
 
-        binding.viewRoot.setOnClickListener {
-            findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToAddTodoFragment())
+    private fun setUpTodoAdapter() = TodoAdapter({ todoEntity ->
+        viewModel.onClickListener(todoEntity)
+    }, { todoEntity: TodoEntity ->
+        viewModel.onTodoLongClick(todoEntity)
+    })
+
+    private fun allTodosBefor(todoEntity: List<TodoEntity>) {
+        todoAdapter.data = todoEntity
+    }
+
+    private fun observeTodoSheet(entity: BottomSheetEntity) {
+        todoSheet?.apply {
+            sheetItems = entity.items
+            sheetTitle = entity.sheetTitle
+            show()
+        } ?: run {
+            todoSheet = BottomSheetView(requireContext())
         }
     }
 
-    private fun allTodosBefor(todoViewModel: TodoViewModel, todoAdapter: TodoAdapter) {
-        todoViewModel.allTodosBefor().observe(viewLifecycleOwner, {
-            it?.let {
-                Log.d(TAG, "allTodosBefor: ${it.size}")
-                todoAdapter.data = it
-            }
-        })
-    }
+    private fun editTodoEntity(isEdit: Boolean) {
+        if (isEdit) {
+            viewModel.navigationObservable.observe(viewLifecycleOwner, { todoEntity ->
+                findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToAddTodoFragment(todoEntity))
+            })
 
-    private fun setUpTodoAdapter() = TodoAdapter { todoEntity, todoTitle ->
-        if (!todoEntity.isDone) {
-            todoEntity.isDone = true
-            updateTodoInDatabase(todoEntity)
-            todoTitle.setTextColor(
-                ContextCompat.getColor(
-                    todoTitle.context,
-                    R.color.text_hint_color
-                )
-            )
-            todoTitle.paintFlags = todoTitle.paintFlags or STRIKE_THRU_TEXT_FLAG
-        } else {
-            todoEntity.isDone = false
-            updateTodoInDatabase(todoEntity)
-            todoTitle.setTextColor(
-                ContextCompat.getColor(
-                    todoTitle.context,
-                    R.color.text_primary_color
-                )
-            )
-            todoTitle.paintFlags = todoTitle.paintFlags and STRIKE_THRU_TEXT_FLAG.inv()
-        }
-    }
-
-    private fun updateTodoInDatabase(todoEntity: TodoEntity) {
-        if (todoEntity.isDone) {
-            viewModel.updateTodo(
-                TodoEntity(
-                    todoEntity.todoId,
-                    todoEntity.todo,
-                    todoEntity.date,
-                    todoEntity.isDone
-                )
-            )
-        } else {
-            viewModel.updateTodo(
-                TodoEntity(
-                    todoEntity.todoId,
-                    todoEntity.todo,
-                    todoEntity.date,
-                    todoEntity.isDone
-                )
-            )
         }
     }
 

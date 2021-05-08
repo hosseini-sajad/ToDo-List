@@ -21,4 +21,7 @@ class TodoRepository(application: Application) {
 
     suspend fun updateTodo(todo: TodoEntity) =
         todoDao.updateTodo(todo)
+
+    suspend fun deleteTodo(todo: TodoEntity) =
+        todoDao.deleteTodo(todo)
 }

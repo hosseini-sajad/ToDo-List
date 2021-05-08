@@ -22,6 +22,11 @@
         tools:layout="@layout/fragment_addtodo" >
         <action
             android:id="@+id/action_addTodoFragment_to_todoListFragment"
+            app:destination="@id/todoListFragment"
             app:popUpTo="@id/todoListFragment" />
+        <argument
+            android:name="todoEntity"
+            app:argType="xone.com.todolist.database.entity.TodoEntity"
+            app:nullable="true" />
     </fragment>
 </navigation>

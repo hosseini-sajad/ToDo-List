@@ -2,18 +2,16 @@ package xone.com.todolist.adapter
 
 import android.graphics.Paint
 import android.view.LayoutInflater
-import android.view.TextureView
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import xone.com.todolist.R
 import xone.com.todolist.database.entity.TodoEntity
 
-class TodoAdapter(private val onClickFunction: (TodoEntity, appCompatTextView: AppCompatTextView) -> Unit) :
+class TodoAdapter(private val onClickListener: (TodoEntity) -> Unit,
+                  private val onLongClickListener: (TodoEntity) -> Unit) :
     RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
     var data = listOf<TodoEntity>()
@@ -28,7 +26,7 @@ class TodoAdapter(private val onClickFunction: (TodoEntity, appCompatTextView: A
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         val item = data[position]
-        holder.bind(item, onClickFunction)
+        holder.bind(item, onClickListener, onLongClickListener)
     }
 
     class TodoViewHolder private constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -36,7 +34,8 @@ class TodoAdapter(private val onClickFunction: (TodoEntity, appCompatTextView: A
 
         fun bind(
             item: TodoEntity,
-            clickListener: (TodoEntity, todoTitle: AppCompatTextView) -> Unit
+            clickListener: (TodoEntity) -> Unit,
+            onLongClickListener: (TodoEntity) -> Unit
         ) {
             todoTitle.text = item.todo
             if (item.isDone) {
@@ -57,7 +56,11 @@ class TodoAdapter(private val onClickFunction: (TodoEntity, appCompatTextView: A
                 )
                 todoTitle.paintFlags = todoTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
             }
-            itemView.setOnClickListener { clickListener(item, todoTitle) }
+            itemView.setOnClickListener { clickListener(item) }
+            itemView.setOnLongClickListener{
+                onLongClickListener.invoke(item)
+                true
+            }
         }
 
         companion object {
