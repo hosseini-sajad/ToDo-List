@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/settingsTitleText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="@string/settings_feature_title_name"
+        android:textColor="@color/text_secondary_color"
+        android:textSize="@dimen/font_size_title_1"
+        app:fontFamily="@font/robotoslab_black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/backupTitle"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="@string/settings_backup_title"
+        android:textColor="@color/text_primary_color"
+        android:textSize="@dimen/font_size_regular"
+        app:layout_constraintEnd_toStartOf="@id/backupStatus"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settingsTitleText" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/backupStatus"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:gravity="end|center_vertical"
+        android:padding="16dp"
+        android:text="@string/coming_soon"
+        android:textColor="@color/text_secondary_color"
+        android:textSize="@dimen/font_size_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/backupTitle"
+        app:layout_constraintTop_toBottomOf="@id/settingsTitleText" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/backupStatusArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/backupStatus"
+        app:layout_constraintEnd_toEndOf="@id/backupStatus"
+        app:layout_constraintTop_toTopOf="@id/backupStatus"
+        app:srcCompat="@drawable/ic_chevron_right_icon_secondary_24dp" />
+
+    <View
+        android:id="@+id/backupClick"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@drawable/selector_click_rectangle"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/settingsTitleText" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userInterfaceModeTitle"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="@string/settings_ui_mode_title"
+        android:textColor="@color/text_primary_color"
+        android:textSize="@dimen/font_size_regular"
+        app:layout_constraintEnd_toStartOf="@id/userInterfaceMode"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backupClick" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/userInterfaceMode"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:gravity="end|center_vertical"
+        android:padding="16dp"
+        android:text="@string/settings_ui_mode_automatic"
+        android:textColor="@color/text_secondary_color"
+        android:textSize="@dimen/font_size_regular"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/userInterfaceModeTitle"
+        app:layout_constraintTop_toBottomOf="@id/backupClick" />
+
+    <View
+        android:id="@+id/userInterfaceModeClick"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@drawable/selector_click_rectangle"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/backupClick" />
+
+    <!--<androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/contributorsTitle"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="@string/settings_contributors_title"
+        android:textColor="@color/text_primary_color"
+        android:textSize="@dimen/font_size_regular"
+        app:layout_constraintEnd_toStartOf="@id/contributorsArrow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userInterfaceModeClick" />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/contributorsArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/contributorsTitle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/contributorsTitle"
+        app:layout_constraintTop_toTopOf="@id/contributorsTitle"
+        app:srcCompat="@drawable/ic_chevron_right_icon_secondary_24dp" />
+
+    <View
+        android:id="@+id/contributorsClick"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:background="@drawable/selector_click_rectangle"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/userInterfaceModeClick" />
+    -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>
