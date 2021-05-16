@@ -75,6 +75,7 @@ class TodoListFragment : Fragment() {
             show()
         } ?: run {
             todoSheet = BottomSheetView(requireContext())
+            observeTodoSheet(entity)
         }
     }
 
@@ -83,7 +84,6 @@ class TodoListFragment : Fragment() {
             viewModel.navigationObservable.observe(viewLifecycleOwner, { todoEntity ->
                 findNavController().navigate(TodoListFragmentDirections.actionTodoListFragmentToAddTodoFragment(todoEntity))
             })
-
         }
     }
 
@@ -104,6 +104,9 @@ class TodoListFragment : Fragment() {
     }
 
     override fun onDestroyView() {
+        if (todoSheet?.isShowing == true) {
+            todoSheet?.dismiss()
+        }
         super.onDestroyView()
         _binding = null
     }
